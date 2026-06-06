@@ -56,7 +56,7 @@ SYSTEM_INSTRUCTION = {
 history = [SYSTEM_INSTRUCTION]
 
 
-def chat_stream(messages: list[str]) -> str:
+def chat_stream(messages: list[dict]) -> str:
     """
     调用 OpenRouter API，流式返回响应。
 
@@ -79,43 +79,50 @@ def chat_stream(messages: list[str]) -> str:
 
     full_response = ""
 
-    with requests.post(API_URL, headers=headers, json=payload, stream=True) as r:
-        # 检查 HTTP 状态码
-        if r.status_code != 200:
-            print(f"\nAPI 错误 (HTTP {r.status_code}): {r.text}")
-            return ""
+    try:
+        with requests.post(API_URL, headers=headers, json=payload, stream=True, timeout=(10,30)) as r:
+            r.encoding = "utf-8"
+            # 检查 HTTP 状态码
+            if r.status_code != 200:
+                print(f"\nAPI 错误 (HTTP {r.status_code}): {r.text}")
+                return ""
 
-        # 处理 SSE (Server-Sent Events) 流式数据
-        buffer = ""
-        for chunk in r.iter_content(chunk_size=1024, decode_unicode=True):
-            buffer += chunk
-
-            while True:
-                line_end = buffer.find("\n")
-                if line_end == -1:
+            # 处理 SSE (Server-Sent Events) 流式数据
+            buffer = ""
+            done = False
+            for chunk in r.iter_content(chunk_size=1024, decode_unicode=True):
+                if done:
                     break
+                buffer += chunk
 
-                line = buffer[:line_end].strip()
-                buffer = buffer[line_end + 1 :]
-
-                if line.startswith("data: "):
-                    data = line[6:]
-
-                    if data == "[DONE]":
+                while True:
+                    line_end = buffer.find("\n")
+                    if line_end == -1:
                         break
+                    line = buffer[:line_end].strip()
+                    buffer = buffer[line_end + 1 :]
 
-                    try:
-                        data_obj = json.loads(data)
-                        content = data_obj["choices"][0]["delta"].get("content")
-                        if content:
-                            print(content, end="", flush=True)
-                            full_response += content
-                    except json.JSONDecodeError:
-                        pass
+                    if line.startswith("data: "):
+                        data = line[6:]
 
-    print()  # 换行
-    return full_response
+                        if data == "[DONE]":
+                            done = True
+                            break
 
+                        try:
+                            data_obj = json.loads(data)
+                            content = data_obj["choices"][0]["delta"].get("content")
+                            if content:
+                                print(content, end="", flush=True)
+                                full_response += content
+                        except json.JSONDecodeError:
+                            pass
+
+        print()  # 换行
+        return full_response
+    except requests.exceptions.RequestException as e:
+        print(f"\n网络请求失败： {e}")
+        return ""
 
 # --- Step 5: 主循环 ---
 print(f"Python Tutor Agent (model: {MODEL})")
@@ -135,7 +142,10 @@ while True:
             if msg["role"] == "system":
                 continue
             role = "You" if msg["role"] == "user" else "Agent"
-            print(f"  [{role}] {msg['content'][:80]}...")
+            if len(msg["content"]) > 80:
+                print(f"  [{role}] {msg['content'][:80]}...")
+            else:                
+                print(f"  [{role}] {msg['content']}")
         continue
 
     if user_input.lower() == "clear":

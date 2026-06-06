@@ -33,8 +33,8 @@ SDK: `google-genai` (official Google GenAI Python SDK).
 
 | # | Project | Core Skill | Framework Focus | Status |
 |---|---------|-----------|----------------|--------|
-| 1 | CLI Chatbot | LLM calls, conversation history | Hand-written (no framework) | planned |
-| 2 | Tool Agent | Tool/function calling | Hand-written → OpenAI Agents SDK | planned |
+| 1 | CLI Chatbot | LLM calls, conversation history | Hand-written (no framework) | **done** |
+| 2 | Tool Agent | Tool/function calling | Hand-written → OpenAI Agents SDK | **active** |
 | 3 | File Q&A (RAG) | Embedding, vector search, context injection | Hand-written → LangGraph | planned |
 | 4 | Web Research Agent | Multi-step planning | LangGraph vs Pydantic AI | planned |
 | 5 | Bug Fix Agent | Execute-observe-fix loop | OpenAI Agents SDK | planned |
@@ -43,7 +43,7 @@ SDK: `google-genai` (official Google GenAI Python SDK).
 
 ## Current Focus
 
-Day 1: CLI Chatbot — hand-written, no framework. Get Gemini API working, build a simple chat loop.
+Day 2: Tool Agent — add function calling. Model decides WHEN to call a tool, tool returns result, model continues.
 
 ## Exercises
 
@@ -184,6 +184,12 @@ def search_notes(keyword: str) -> str:
 - Frameworks to compare: OpenAI Agents SDK, LangGraph, Pydantic AI
 - User is a Python beginner
 - Starting with Day 1: hand-written CLI chatbot
+
+### 2026-06-06 — Day 1 Done
+- Switched from Google AI Studio to OpenRouter (more models, OpenAI-compatible format)
+- Built CLI chatbot with streaming, conversation history, error handling
+- Learned: SSE streaming, .env config, uv package manager, len() vs __len__()
+- Code reviewed twice, fixed bugs (printf typo, done flag, type annotations)
 
 ---
 
