@@ -1,7 +1,7 @@
 ---
 id: ai-agent-7day
 title: AI Agent 7-Day Practice Plan
-status: active
+status: done
 level: beginner
 language: python
 llm_provider: google_ai_studio
@@ -34,16 +34,16 @@ SDK: `google-genai` (official Google GenAI Python SDK).
 | # | Project | Core Skill | Framework Focus | Status |
 |---|---------|-----------|----------------|--------|
 | 1 | CLI Chatbot | LLM calls, conversation history | Hand-written (no framework) | **done** |
-| 2 | Tool Agent | Tool/function calling | Hand-written → OpenAI Agents SDK | **active** |
-| 3 | File Q&A (RAG) | Embedding, vector search, context injection | Hand-written → LangGraph | planned |
-| 4 | Web Research Agent | Multi-step planning | LangGraph vs Pydantic AI | planned |
-| 5 | Bug Fix Agent | Execute-observe-fix loop | OpenAI Agents SDK | planned |
-| 6 | Multi-Agent Writing Team | Agent collaboration | LangGraph | planned |
-| 7 | FastAPI Agent Service | Deployment, logging, API | Any framework | planned |
+| 2 | Tool Agent | Tool/function calling | Hand-written → OpenAI Agents SDK | **done** |
+| 3 | File Q&A (RAG) | Embedding, vector search, context injection | Hand-written | **done** |
+| 4 | Web Research Agent | Multi-step planning | Hand-written pipeline | **done** |
+| 5 | Bug Fix Agent | Execute-observe-fix loop | Hand-written loop | **done** |
+| 6 | Multi-Agent Writing Team | Agent collaboration | Hand-written pipeline | **done** |
+| 7 | FastAPI Agent Service | Deployment, logging, API | FastAPI | **done** |
 
 ## Current Focus
 
-Day 2: Tool Agent — add function calling. Model decides WHEN to call a tool, tool returns result, model continues.
+Day 4: Web Research Agent — multi-step pipeline: plan → search → read → summarize → report.
 
 ## Exercises
 
@@ -185,9 +185,15 @@ def search_notes(keyword: str) -> str:
 - User is a Python beginner
 - Starting with Day 1: hand-written CLI chatbot
 
-### 2026-06-06 — Day 1 Done
+### 2026-06-06 — All 7 Days Completed 🎉
+- Day 1: CLI Chatbot — LLM calls, streaming, conversation history
+- Day 2: Tool Agent — function calling, tool schema, execute loop
+- Day 3: RAG Agent — chunking, embedding, vector search, context injection
+- Day 4: Research Agent — multi-step pipeline (plan→search→fetch→extract→report)
+- Day 5: Bug Fix Agent — execute-observe-fix loop, self-correction
+- Day 6: Multi-Agent Team — role separation, intermediate results, quality review
+- Day 7: FastAPI API — routes, Pydantic models, auth, logging, error handling
 - Switched from Google AI Studio to OpenRouter (more models, OpenAI-compatible format)
-- Built CLI chatbot with streaming, conversation history, error handling
 - Learned: SSE streaming, .env config, uv package manager, len() vs __len__()
 - Code reviewed twice, fixed bugs (printf typo, done flag, type annotations)
 
@@ -195,4 +201,6 @@ def search_notes(keyword: str) -> str:
 
 ## Next Step
 
-Day 1, Step 1: Install `google-genai` SDK, get API key, run a single API call to confirm it works.
+7 天计划已完成！
+进阶计划：用 3 个框架重写核心项目，对比设计哲学。
+详见 [[ai-agent-frameworks|AI Agent 框架对比练习]]

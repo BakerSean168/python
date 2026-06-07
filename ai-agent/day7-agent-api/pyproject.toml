@@ -1,0 +1,13 @@
+[project]
+name = "day7-agent-api"
+version = "1.0.0"
+description = "Day 7: Agent API service — deploy your agent as a web service"
+readme = "README.md"
+requires-python = ">=3.11"
+dependencies = [
+    "fastapi>=0.110.0",
+    "uvicorn[standard]>=0.27.0",
+    "pydantic>=2.5.0",
+    "requests>=2.31.0",
+    "python-dotenv>=1.2.2",
+]

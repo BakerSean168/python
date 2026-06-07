@@ -1,0 +1,11 @@
+[project]
+name = "day5-bugfix-agent"
+version = "0.1.0"
+description = "Day 5: Bug fix agent — execute, observe, fix loop"
+readme = "README.md"
+requires-python = ">=3.11"
+dependencies = [
+    "requests>=2.31.0",
+    "python-dotenv>=1.2.2",
+    "pytest>=8.0.0",
+]
